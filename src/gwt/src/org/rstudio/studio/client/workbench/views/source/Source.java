@@ -47,7 +47,7 @@ import org.rstudio.studio.client.common.filetypes.events.OpenSourceFileHandler;
 import org.rstudio.studio.client.server.ServerError;
 import org.rstudio.studio.client.server.ServerRequestCallback;
 import org.rstudio.studio.client.server.VoidServerRequestCallback;
-import org.rstudio.studio.client.workbench.MRUList;
+import org.rstudio.studio.client.workbench.SourceMRUList;
 import org.rstudio.studio.client.workbench.commands.Commands;
 import org.rstudio.studio.client.workbench.model.RemoteFileSystemContext;
 import org.rstudio.studio.client.workbench.model.Session;
@@ -123,7 +123,7 @@ public class Source implements InsertSourceHandler,
                  RemoteFileSystemContext fileContext,
                  EventBus events,
                  Session session,
-                 MRUList mruList,
+                 SourceMRUList sourceMruList,
                  UIPrefs uiPrefs)
    {
       commands_ = commands;
@@ -135,7 +135,7 @@ public class Source implements InsertSourceHandler,
       fileDialogs_ = fileDialogs;
       fileContext_ = fileContext;
       events_ = events;
-      mruList_ = mruList;
+      sourceMruList_ = sourceMruList;
       uiPrefs_ = uiPrefs;
 
       view_.addTabClosingHandler(this);
@@ -203,7 +203,7 @@ public class Source implements InsertSourceHandler,
       {
          public void onSourceFileSaved(SourceFileSavedEvent event)
          {
-            mruList_.add(event.getPath());
+            sourceMruList_.add(event.getPath());
          }
       });
 
@@ -489,7 +489,7 @@ public class Source implements InsertSourceHandler,
              && thisPath.equalsIgnoreCase(file.getPath()))
          {
             view_.selectTab(i);
-            mruList_.add(thisPath);
+            sourceMruList_.add(thisPath);
             return;
          }
       }
@@ -572,7 +572,7 @@ public class Source implements InsertSourceHandler,
                public void onResponseReceived(SourceDocument document)
                {
                   dismissProgress.execute();
-                  mruList_.add(document.getPath());
+                  sourceMruList_.add(document.getPath());
                   addTab(document);
                }
             });
@@ -839,7 +839,7 @@ public class Source implements InsertSourceHandler,
    private final FileDialogs fileDialogs_;
    private final RemoteFileSystemContext fileContext_;
    private final EventBus events_;
-   private final MRUList mruList_;
+   private final SourceMRUList sourceMruList_;
    private final UIPrefs uiPrefs_;
    private HashSet<AppCommand> activeCommands_ = new HashSet<AppCommand>();
    private final HashSet<AppCommand> dynamicCommands_;

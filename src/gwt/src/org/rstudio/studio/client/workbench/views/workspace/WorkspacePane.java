@@ -12,11 +12,16 @@
  */
 package org.rstudio.studio.client.workbench.views.workspace;
 
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+
+import org.rstudio.core.client.widget.SecondaryToolbar;
 import org.rstudio.core.client.widget.Toolbar;
 import org.rstudio.core.client.widget.ToolbarButton;
 import org.rstudio.core.client.widget.ToolbarPopupMenu;
+import org.rstudio.studio.client.common.filetypes.FileIconResources;
 import org.rstudio.studio.client.common.icons.StandardIcons;
 import org.rstudio.studio.client.workbench.commands.Commands;
 import org.rstudio.studio.client.workbench.ui.WorkbenchPane;
@@ -56,8 +61,8 @@ public class WorkspacePane extends WorkbenchPane
    {
       return new Toolbar(
             new Widget[] {
-                  createLoadMenu(),
-                  createSaveMenu(),
+                  createOpenMenu(),
+                  commands_.saveWorkspace().createToolbarButton(),
                   createImportMenu(),
                   commands_.clearWorkspace().createToolbarButton()
             },
@@ -67,23 +72,21 @@ public class WorkspacePane extends WorkbenchPane
       );
    }
 
-   private Widget createLoadMenu()
+   @Override
+   protected SecondaryToolbar createSecondaryToolbar()
    {
-      ToolbarPopupMenu menu = new ToolbarPopupMenu();
-      menu.addItem(commands_.loadWorkspace().createMenuItem(false));
-      menu.addItem(commands_.loadDefaultWorkspace().createMenuItem(false));
-      return new ToolbarButton(
-            "Load", commands_.openSourceDoc().getImageResource(),
-            menu);
+      SecondaryToolbar toolbar = new SecondaryToolbar();
+      toolbar.addLeftWidget(new Image(FileIconResources.INSTANCE.iconRdata()));
+      toolbar.addLeftWidget(new HTML("&nbsp;&nbsp;~/.RData"));
+      return toolbar;
    }
 
-   private Widget createSaveMenu()
+   private Widget createOpenMenu()
    {
       ToolbarPopupMenu menu = new ToolbarPopupMenu();
-      menu.addItem(commands_.saveWorkspace().createMenuItem(false));
-      menu.addItem(commands_.saveDefaultWorkspace().createMenuItem(false));
+      menu.addItem(commands_.openWorkspace().createMenuItem(false));
       return new ToolbarButton(
-            "Save", commands_.saveSourceDoc().getImageResource(),
+            "Open", commands_.openSourceDoc().getImageResource(),
             menu);
    }
    

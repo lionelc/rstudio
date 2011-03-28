@@ -13,12 +13,6 @@
 
 .rs.addJsonRpcHandler("save_workspace", function(filename)
 {
-   # remember whether the file is new (for file change event)
-   if (file.exists(filename))
-      fileChangeType = 4
-   else
-      fileChangeType = 1
-   
    # save the file 
    save.image(filename)
 })

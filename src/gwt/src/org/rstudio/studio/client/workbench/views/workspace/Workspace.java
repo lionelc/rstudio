@@ -13,8 +13,6 @@
 package org.rstudio.studio.client.workbench.views.workspace;
 
 
-import com.gargoylesoftware.htmlunit.util.StringUtils;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.inject.Inject;
 import org.rstudio.core.client.StringUtil;
@@ -245,6 +243,12 @@ public class Workspace
                }
             });
    }
+   
+   void onSaveWorkspaceAs()
+   {
+      globalDisplay_.showErrorMessage("Workspace", "Save Workspace As");
+      
+   }
 
    private FileSystemItem getLastWorkspaceFileItem()
    {
@@ -253,37 +257,11 @@ public class Workspace
                            : null;
    }
 
-
-   void onSaveDefaultWorkspace()
-   {
-      view_.bringToFront();
-      globalDisplay_.showYesNoMessage(GlobalDisplay.MSG_WARNING,
-            
-            "Confirm Overwrite",
-            
-            "This will overwrite your current default workspace. " +
-            "Are you sure you want to save the current workspace as your " +
-            "new default?", 
-            
-            new ProgressOperation() {
-               public void execute(ProgressIndicator indicator)
-               {
-                  indicator.onProgress("Saving default workspace...");
-                  server_.saveWorkspace(
-                           "~/.RData", 
-                           new VoidServerRequestCallback(indicator));
-               }
-            }, 
-            
-            true);
-   }
-
-
-   void onLoadWorkspace()
+   void onOpenWorkspace()
    {
       view_.bringToFront();
       fileDialogs_.openFile(
-            "Load Workspace",
+            "Open Workspace",
             fsContext_,
             getLastWorkspaceFileItem(),
             new ProgressOperationWithInput<FileSystemItem>()
@@ -299,23 +277,6 @@ public class Workspace
                                         new VoidServerRequestCallback(indicator));
                }
             });
-   }
-
-
-   void onLoadDefaultWorkspace()
-   {
-      view_.bringToFront();
-      // set progress and create command to dismiss it
-      view_.setProgress(true);
-      Command dismissProgress = new Command() {
-         public void execute()
-         {
-            view_.setProgress(false);
-         }
-      };
-                      
-      // load the workspace
-      server_.loadWorkspace("~/.RData", new RequestCallback(dismissProgress));
    }
    
    public void onOpenDataFile(OpenDataFileEvent event)

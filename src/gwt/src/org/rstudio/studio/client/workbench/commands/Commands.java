@@ -82,9 +82,8 @@ public abstract class Commands extends CommandBundle
    public abstract AppCommand clearWorkspace();
    public abstract AppCommand refreshWorkspace();
    public abstract AppCommand saveWorkspace();
-   public abstract AppCommand loadWorkspace();
-   public abstract AppCommand saveDefaultWorkspace();
-   public abstract AppCommand loadDefaultWorkspace();
+   public abstract AppCommand saveWorkspaceAs();
+   public abstract AppCommand openWorkspace();
    public abstract AppCommand importDatasetFromFile();
    public abstract AppCommand importDatasetFromURL();
    public abstract AppCommand importDatasetFromGoogleSpreadsheet();
@@ -156,4 +155,16 @@ public abstract class Commands extends CommandBundle
    public abstract AppCommand mru8();
    public abstract AppCommand mru9();
    public abstract AppCommand clearRecentFiles();
+   
+   public abstract AppCommand workspaceMru0();
+   public abstract AppCommand workspaceMru1();
+   public abstract AppCommand workspaceMru2();
+   public abstract AppCommand workspaceMru3();
+   public abstract AppCommand workspaceMru4();
+   public abstract AppCommand workspaceMru5();
+   public abstract AppCommand workspaceMru6();
+   public abstract AppCommand workspaceMru7();
+   public abstract AppCommand workspaceMru8();
+   public abstract AppCommand workspaceMru9();
+   public abstract AppCommand clearRecentWorkspaceFiles();
 }

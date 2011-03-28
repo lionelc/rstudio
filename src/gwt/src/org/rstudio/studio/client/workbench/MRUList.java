@@ -13,22 +13,18 @@
 package org.rstudio.studio.client.workbench;
 
 import com.google.gwt.core.client.JsArrayString;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import org.rstudio.core.client.DuplicateHelper;
 import org.rstudio.core.client.DuplicateHelper.DuplicationInfo;
 import org.rstudio.core.client.command.AppCommand;
 import org.rstudio.core.client.command.CommandHandler;
 import org.rstudio.core.client.files.FileSystemItem;
 import org.rstudio.core.client.js.JsObject;
-import org.rstudio.studio.client.common.filetypes.FileTypeRegistry;
 import org.rstudio.studio.client.workbench.commands.Commands;
 import org.rstudio.studio.client.workbench.model.Session;
 import org.rstudio.studio.client.workbench.model.helper.JSObjectStateValue;
 
 import java.util.*;
 
-@Singleton
 public class MRUList
 {
    private static class CaseInsensitiveStringComparator implements Comparator<String>
@@ -39,26 +35,21 @@ public class MRUList
       }
    }
 
-   @Inject
+   public interface MruCommandHandler
+   {
+      void onMruCommand(String mruEntry);
+   }
+
    public MRUList(Commands commands,
-                  FileTypeRegistry fileTypeRegistry,
+                  AppCommand[] mruCmds,
+                  MruCommandHandler mruCommandHandler,
+                  String contextName,
                   Session session)
    {
       commands_ = commands;
-      fileTypeRegistry_ = fileTypeRegistry;
       session_ = session;
-      mruCmds_ = new AppCommand[] {
-            commands.mru0(),
-            commands.mru1(),
-            commands.mru2(),
-            commands.mru3(),
-            commands.mru4(),
-            commands.mru5(),
-            commands.mru6(),
-            commands.mru7(),
-            commands.mru8(),
-            commands.mru9()
-      };
+      mruCmds_ = mruCmds;
+      mruCommandHandler_ = mruCommandHandler;
 
       for (int i = 0; i < mruCmds_.length; i++)
          bindCommand(i);
@@ -71,7 +62,10 @@ public class MRUList
          }
       });
 
-      new JSObjectStateValue("mru", "entries", true,
+      String mruScope = "mru";
+      if (contextName != null)
+         mruScope = contextName + "-" + mruScope;
+      new JSObjectStateValue(mruScope, "entries", true,
                              session.getSessionInfo().getClientState(),
                              false) {
          @Override
@@ -114,8 +108,7 @@ public class MRUList
          {
             if (i < mruEntries_.size())
             {
-               fileTypeRegistry_.editFile(
-                     FileSystemItem.createFile(mruEntries_.get(i)));
+               mruCommandHandler_.onMruCommand(mruEntries_.get(i));
             }
          }
       });
@@ -289,7 +282,7 @@ public class MRUList
    private boolean dirty_;
    private AppCommand[] mruCmds_;
    private final Commands commands_;
-   private final FileTypeRegistry fileTypeRegistry_;
    private final Session session_;
+   private final MruCommandHandler mruCommandHandler_;
    private final ArrayList<String> mruEntries_ = new ArrayList<String>();
 }

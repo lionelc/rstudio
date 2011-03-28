@@ -39,7 +39,7 @@ import org.rstudio.studio.client.application.events.ChangeFontSizeHandler;
 import org.rstudio.studio.client.application.events.EventBus;
 import org.rstudio.studio.client.application.ui.appended.ApplicationEndedPopupPanel;
 import org.rstudio.studio.client.common.GlobalDisplay;
-import org.rstudio.studio.client.workbench.MRUList;
+import org.rstudio.studio.client.workbench.SourceMRUList;
 import org.rstudio.studio.client.workbench.WorkbenchMainView;
 import org.rstudio.studio.client.workbench.commands.Commands;
 import org.rstudio.studio.client.workbench.events.*;
@@ -70,7 +70,7 @@ public class WorkbenchScreen extends Composite
                           Provider<PaneManager> pPaneManager,
                           final Edit.Shim edit,
                           Commands commands,
-                          final Provider<MRUList> mruList,
+                          final Provider<SourceMRUList> sourceMruList,
                           FontSizeManager fontSizeManager,
                           WorkbenchServerOperations server,
                           GlobalDisplay globalDisplay,
@@ -127,7 +127,7 @@ public class WorkbenchScreen extends Composite
          public void onSessionInit(SessionInitEvent sie)
          {
             prefetch();
-            mruList.get();
+            sourceMruList.get();
          }
       });
 

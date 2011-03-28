@@ -34,13 +34,11 @@ public class WorkspaceTab extends DelayLoadWorkbenchTab<Workspace>
          implements OpenDataFileHandler
    {
       @Handler
-      public abstract void onLoadWorkspace();
-      @Handler
-      public abstract void onLoadDefaultWorkspace();
+      public abstract void onOpenWorkspace();
       @Handler
       public abstract void onSaveWorkspace();
       @Handler
-      public abstract void onSaveDefaultWorkspace();
+      public abstract void onSaveWorkspaceAs();
       @Handler
       public abstract void onImportDatasetFromFile();
       @Handler

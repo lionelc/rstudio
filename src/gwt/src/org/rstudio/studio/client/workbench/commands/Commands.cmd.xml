@@ -105,11 +105,24 @@ well as menu structures (for main menu and popup menus).
       <separator/>
 
       <menu label="_Workspace">
-         <cmd refid="loadWorkspace"/>
-         <cmd refid="loadDefaultWorkspace"/>
+         <cmd refid="openWorkspace"/>
+         <menu label="Open _Recent">
+            <cmd refid="workspaceMru0"/>
+            <cmd refid="workspaceMru1"/>
+            <cmd refid="workspaceMru2"/>
+            <cmd refid="workspaceMru3"/>
+            <cmd refid="workspaceMru4"/>
+            <cmd refid="workspaceMru5"/>
+            <cmd refid="workspaceMru6"/>
+            <cmd refid="workspaceMru7"/>
+            <cmd refid="workspaceMru8"/>
+            <cmd refid="workspaceMru9"/>
+            <separator/>
+            <cmd refid="clearRecentWorkspaceFiles"/>
+         </menu>
          <separator/>
          <cmd refid="saveWorkspace"/>
-         <cmd refid="saveDefaultWorkspace"/>
+         <cmd refid="saveWorkspaceAs"/>
          <separator/>
          <menu label="Import Dataset">
             <cmd refid="importDatasetFromFile"/>
@@ -431,14 +444,13 @@ well as menu structures (for main menu and popup menus).
    <cmd id="clearWorkspace"
         menuLabel="_Clear All..."
         buttonLabel="Clear All"/>
-   <cmd id="loadWorkspace"
-        menuLabel="_Load Workspace..."/>
-   <cmd id="loadDefaultWorkspace"
-        menuLabel="Load _Default Workspace"/>
+   <cmd id="openWorkspace"
+        menuLabel="_Open Workspace..."/>
    <cmd id="saveWorkspace"
-        menuLabel="_Save Workspace..."/>
-   <cmd id="saveDefaultWorkspace"
-        menuLabel="Save _as Default Workspace..."/>
+        buttonLabel="Save"
+        menuLabel="_Save Workspace"/>
+   <cmd id="saveWorkspaceAs"
+        menuLabel="Save Workspace _As..."/>
    <cmd id="importDatasetFromFile"
         menuLabel="From Text File..."/>
    <cmd id="importDatasetFromURL"
@@ -450,8 +462,18 @@ well as menu structures (for main menu and popup menus).
         menuLabel="Refresh"
         desc="Refresh Workspace"/>
 
+   <cmd id="workspaceMru0" visible="false"/>
+   <cmd id="workspaceMru1" visible="false"/>
+   <cmd id="workspaceMru2" visible="false"/>
+   <cmd id="workspaceMru3" visible="false"/>
+   <cmd id="workspaceMru4" visible="false"/>
+   <cmd id="workspaceMru5" visible="false"/>
+   <cmd id="workspaceMru6" visible="false"/>
+   <cmd id="workspaceMru7" visible="false"/>
+   <cmd id="workspaceMru8" visible="false"/>
+   <cmd id="workspaceMru9" visible="false"/>
+   <cmd id="clearRecentWorkspaceFiles" menuLabel="Clear List"/>
     
-
    <cmd id="installPackage"
         menuLabel="Install Package..."
         buttonLabel="Install Package"
