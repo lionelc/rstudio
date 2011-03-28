@@ -49,6 +49,7 @@ set (SESSION_SOURCE_FILES
    modules/SessionTeX.cpp
    modules/SessionWorkbench.cpp
    modules/SessionWorkspace.cpp
+   modules/SessionWorkspaceGlobalEnv.cpp
    ${CMAKE_CURRENT_BINARY_DIR}/SessionAddins.cpp
 )
 
