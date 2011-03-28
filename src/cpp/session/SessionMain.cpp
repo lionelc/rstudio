@@ -1540,16 +1540,18 @@ void detectParentTermination()
    }
 }
 
-FilePath rEnvironmentDir()
+FilePath rGlobalEnvironmentFilePath()
 {
+   FilePath envDir;
    if (session::options().programMode() == kSessionProgramModeDesktop)
    {
-      return FilePath::safeCurrentPath(session::options().userHomePath());
+      envDir = FilePath::safeCurrentPath(session::options().userHomePath());
    }
    else
    {
-      return getInitialWorkingDirectory();
+      envDir = getInitialWorkingDirectory();
    }
+   return envDir.complete(".RData");
 }
 
 } // anonymous namespace
@@ -1825,7 +1827,6 @@ int main (int argc, char * const argv[])
       rOptions.userHomePath = options.userHomePath();
       rOptions.userScratchPath = userScratchPath;
       rOptions.defaultWorkingDir = getDefaultWorkingDirectory();
-      rOptions.rEnvironmentDir = boost::bind(rEnvironmentDir);
       rOptions.rSourcePath = options.coreRSourcePath();
       if (!desktopMode) // ignore r-libs-user in desktop mode
          rOptions.rLibsUser = options.rLibsUser();
@@ -1868,6 +1869,7 @@ int main (int argc, char * const argv[])
       rCallbacks.showHelp = rShowHelp;
       rCallbacks.showMessage = rShowMessage;
       rCallbacks.serialization = rSerialization;
+      rCallbacks.globalEnvironmentFilePath = rGlobalEnvironmentFilePath;
       
       // run r (does not return, terminates process using exit)
       error = r::session::run(rOptions, rCallbacks) ;

@@ -102,11 +102,6 @@ public:
 // R history file
 const char * const kRHistory = ".Rhistory";
    
-FilePath rGlobalEnvironmentFilePath()
-{
-   FilePath rEnvironmentDir = s_options.rEnvironmentDir();
-   return rEnvironmentDir.complete(".RData");
-}
    
 class SerializationCallbackScope : boost::noncopyable
 {
@@ -165,7 +160,7 @@ Error saveDefaultGlobalEnvironment()
    r::exec::IgnoreInterruptsScope ignoreInterrupts;
          
    // save global environment
-   FilePath globalEnvPath = rGlobalEnvironmentFilePath();
+   FilePath globalEnvPath = s_callbacks.globalEnvironmentFilePath();
    Error error = r::exec::executeSafely(
                         boost::bind(R_SaveGlobalEnvToFile,
                                     globalEnvPath.absolutePath().c_str()));
@@ -192,7 +187,7 @@ Error restoreDefaultGlobalEnvironment()
    r::exec::IgnoreInterruptsScope ignoreInterrupts;
    
    // restore the default global environment if there is one
-   FilePath globalEnvPath = rGlobalEnvironmentFilePath();
+   FilePath globalEnvPath = s_callbacks.globalEnvironmentFilePath();
    if (globalEnvPath.exists())
    {
       Error error = r::exec::executeSafely(boost::bind(

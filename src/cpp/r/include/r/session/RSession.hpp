@@ -57,7 +57,6 @@ struct ROptions
    core::FilePath userHomePath;
    core::FilePath userScratchPath;
    core::FilePath defaultWorkingDir;
-   boost::function<core::FilePath()> rEnvironmentDir;
    core::FilePath rSourcePath;
    core::FilePath rLibsExtra;
    std::string rLibsUser;
@@ -125,6 +124,7 @@ struct RCallbacks
    boost::function<void(const std::string&)> suicide;
    boost::function<void(bool)> cleanup;
    boost::function<void(int)> serialization;
+   boost::function<core::FilePath()> globalEnvironmentFilePath;
 };
 
 // run the session   
